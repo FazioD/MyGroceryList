@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 //Todo: Save to db
                 //Todo Go to next screen
 
-                SaveGroceryToDB(v)
+                SaveGroceryToDB(v);
 
             }
         });

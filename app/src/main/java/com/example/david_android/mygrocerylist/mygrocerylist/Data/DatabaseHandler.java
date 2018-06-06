@@ -68,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private Grocery getGrocery(int id) {
         SQLiteDatabase db= this.getWritableDatabase();
 
-        Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID, Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER, Constants.KEY_DATE_NAME,
+        Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID, Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER, Constants.KEY_DATE_NAME},
                 Constants.KEY_ID + "=?",
                 new String [] {String.valueOf(id)}, null, null, null, null);
 
@@ -94,7 +94,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<Grocery> getAllGroceries(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        List<Grocery> grocertList = new ArrayList<>();
+        List<Grocery> groceryList = new ArrayList<>();
 
         Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {
                 Constants.KEY_ID, Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER,
@@ -103,28 +103,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 Grocery grocery = new Grocery();
-                grocery.setId();
+                grocery.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
+                grocery.setName(cursor.getString(cursor.getColumnIndex(Constants.KEY_GROCERY_ITEM)));
+                grocery.setQuantity(cursor.getString(cursor.getColumnIndex(Constants.KEY_QTY_NUMBER)));
+
+                //convert timestamp into something readable
+                java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
+                String formatedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.KEY_DATE_NAME)))
+                        .getTime());
+
+                grocery.setDateItemAdded(formatedDate);
+
+                //Add to grocery list
+                groceryList.add(grocery);
 
             }while(cursor.moveToNext());
         }
 
-        return null;
+        return groceryList;
     }
 
         //Updated groceries
 
-    public int updateGrocery(Grocery grocery) {
+    public int updateGrocery(Grocery grocery){
+            SQLiteDatabase db = this.getWritableDatabase();
 
-        return 0;
+            ContentValues values = new ContentValues();
+            values.put(Constants.KEY_GROCERY_ITEM, grocery.getName());
+            values.put(Constants.KEY_QTY_NUMBER, grocery.getQuantity());
+            values.put(Constants.KEY_DATE_NAME, java.lang.System.currentTimeMillis());
+
+            //updated row
+            return db.update(Constants.TABLE_NAME, values, Constants.KEY_ID + "=?", new String[]{String.valueOf(grocery.getId())});
+
     }
 
         //Delete Grocery
     public void deleteGrocery(int id){
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(Constants.TABLE_NAME, Constants.KEY_ID+ " = ?",
+                    new String[] {String.valueOf(id)});
+
+            db.close();
 
     }
         //Get count
-    public int getGroceriesCount() {
+    public int getGroceriesCount(){
+            String countQuery = "SELECT * FROM " + Constants.TABLE_NAME;
+            SQLiteDatabase db= this.getReadableDatabase();
 
-        return 0;
+            Cursor cursor = db.rawQuery(countQuery, null);
+
+
+        return cursor.getCount();
     }
 }
