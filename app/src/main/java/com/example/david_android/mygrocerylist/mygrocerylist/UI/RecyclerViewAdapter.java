@@ -53,7 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             groceryItemName = (TextView) view.findViewById(R.id.name);
             quantity = (TextView) view.findViewById(R.id.quantity);
             dateAdded = (TextView) view.findViewById(R.id.dateAdded);
-
             editButton = (Button) view.findViewById(R.id.editButton);
             deleteButton = (Button) view.findViewById(R.id.deleteButton);
 
