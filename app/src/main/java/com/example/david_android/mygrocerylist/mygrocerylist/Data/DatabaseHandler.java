@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
 import com.example.david_android.mygrocerylist.mygrocerylist.Model.Grocery;
@@ -49,7 +48,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         //Add Grocery
-    public void AddGrocery(Grocery grocery) {
+    public void addGrocery(Grocery grocery) {
         SQLiteDatabase db= this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -65,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
         //Get a grocery item
-    private Grocery getGrocery(int id) {
+    public Grocery getGrocery(int id) {
         SQLiteDatabase db= this.getWritableDatabase();
 
         Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID, Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER, Constants.KEY_DATE_NAME},
