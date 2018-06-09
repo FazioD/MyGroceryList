@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 //Todo Go to next screen
                 if(!groceryItem.getText().toString().isEmpty()
                         && !quantity.getText().toString().isEmpty()){
-                    SaveGroceryToDB(v);
+                    saveGroceryToDB(v);
                 }
 
             }
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void SaveGroceryToDB(View v) {
+    private void saveGroceryToDB(View v) {
         Grocery grocery = new Grocery();
 
         String newGrocery = groceryItem.getText().toString();
@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
         //save to DB
         db.addGrocery(grocery);
 
-        Snackbar.make(v, "Item Saved", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(v, "Item Saved!", Snackbar.LENGTH_LONG).show();
 
-       // Log.d("Item Added ID:", String.valueOf(db.getGroceriesCount()));
+        //Log.d("Item Added ID:", String.valueOf(db.getGroceriesCount()));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -121,9 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 //start a new activity
                 startActivity(new Intent(MainActivity.this, ListActivity.class));
             }
-        }, 1000); //1 second
-
+        }, 1200); //1 second
 
     }
-
 }

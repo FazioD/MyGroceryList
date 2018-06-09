@@ -59,7 +59,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //Insert the row
         db.insert(Constants.TABLE_NAME, null, values);
 
-        Log.d("Saved!!", "Saved to Db");
+        Log.d("Saved!!", "Saved to DB");
 
     }
 
@@ -67,7 +67,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Grocery getGrocery(int id) {
         SQLiteDatabase db= this.getWritableDatabase();
 
-        Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID, Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER, Constants.KEY_DATE_NAME},
+        Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID,
+                        Constants.KEY_GROCERY_ITEM, Constants.KEY_QTY_NUMBER, Constants.KEY_DATE_NAME},
                 Constants.KEY_ID + "=?",
                 new String [] {String.valueOf(id)}, null, null, null, null);
 
@@ -81,10 +82,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             //convert timestamp into something readable
             java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-            String formatedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.KEY_DATE_NAME)))
+            String formattedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.KEY_DATE_NAME)))
             .getTime());
 
-            grocery.setDateItemAdded(formatedDate);
+            grocery.setDateItemAdded(formattedDate);
 
         return grocery;
     }
@@ -116,7 +117,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 //Add to grocery list
                 groceryList.add(grocery);
 
-            }while(cursor.moveToNext());
+            }while (cursor.moveToNext());
         }
 
         return groceryList;
