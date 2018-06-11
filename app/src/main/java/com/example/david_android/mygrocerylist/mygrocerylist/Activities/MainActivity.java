@@ -8,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,14 @@ import com.example.david_android.mygrocerylist.mygrocerylist.Data.DatabaseHandle
 import com.example.david_android.mygrocerylist.mygrocerylist.Model.Grocery;
 import com.example.david_android.mygrocerylist.mygrocerylist.R;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewAdapter;
+    private List<Grocery> groceryList;
+    private List<Grocery> listItems;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -34,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new DatabaseHandler(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 //Todo Go to next screen
                 if(!groceryItem.getText().toString().isEmpty()
                         && !quantity.getText().toString().isEmpty()){
-                    saveGroceryToDB(v);
+                    SaveGroceryToDB(v);
                 }
 
             }
@@ -99,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void saveGroceryToDB(View v) {
+    private void SaveGroceryToDB(View v) {
         Grocery grocery = new Grocery();
 
         String newGrocery = groceryItem.getText().toString();
@@ -111,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
         //save to DB
         db.addGrocery(grocery);
 
-        Snackbar.make(v, "Item Saved!", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(v, "Item Saved", Snackbar.LENGTH_LONG).show();
 
-        //Log.d("Item Added ID:", String.valueOf(db.getGroceriesCount()));
+        Log.d("Item Added ID:", String.valueOf(db.getGroceriesCount()));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -121,7 +132,9 @@ public class MainActivity extends AppCompatActivity {
                 //start a new activity
                 startActivity(new Intent(MainActivity.this, ListActivity.class));
             }
-        }, 1200); //1 second
+        }, 1000); //1 second
+
 
     }
+
 }
