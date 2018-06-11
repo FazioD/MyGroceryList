@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +21,14 @@ import com.example.david_android.mygrocerylist.mygrocerylist.Data.DatabaseHandle
 import com.example.david_android.mygrocerylist.mygrocerylist.Model.Grocery;
 import com.example.david_android.mygrocerylist.mygrocerylist.R;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewAdapter;
+    private List<Grocery> groceryList;
+    private List<Grocery> listItems;
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
